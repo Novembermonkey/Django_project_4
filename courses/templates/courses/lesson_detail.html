@@ -1,0 +1,112 @@
+{% load static %}
+{% load widget_tweaks %}
+{% load item_tags %}
+
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ lesson.item.title }}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="h-full bg-gray-900 text-white font-sans">
+
+<div class="flex h-screen">
+
+  <!-- Sidebar -->
+  <aside class="w-72 bg-black text-gray-300 overflow-y-auto">
+    <div class="p-4 font-bold text-gray-400 uppercase tracking-widest text-sm">{{ course.title }}</div>
+    {% for module in modules %}
+      <details open class="px-4 py-2 border-b border-gray-700">
+        <summary class="cursor-pointer text-white font-semibold text-sm">
+          {{ forloop.counter }}-Modul. {{ module.title }}
+        </summary>
+        <ul class="mt-2 space-y-1 text-sm">
+          {% for lesson in module.lessons.all %}
+            <li>
+              <a href="{% url 'courses:lesson_detail' lesson.id %}"
+                 class="flex items-center gap-2 px-3 py-2 rounded-md transition
+                        {% if lesson == current_lesson %}
+                          bg-blue-600 text-white font-medium
+                        {% else %}
+                          hover:bg-gray-800 text-gray-300
+                        {% endif %}">
+                <span>⏯</span> {{ forloop.counter }}. {{ lesson.item.title }}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </details>
+    {% endfor %}
+  </aside>
+
+  <!-- Main Content -->
+  <main class="flex-1 flex flex-col justify-start p-6 space-y-6 bg-gray-900">
+
+  <!-- Main Content Renderer -->
+  {% with item=lesson.item %}
+    <div class="w-full rounded-lg overflow-hidden border border-gray-700 bg-black">
+
+      {% if lesson.item.get_video_source %}
+  <div class="aspect-video w-full rounded overflow-hidden border border-gray-700">
+    {% if lesson.item.url %}
+      <!-- If it's a YouTube/URL video -->
+      <iframe class="w-full h-full"
+              src="{{ lesson.item.get_video_source }}"
+              frameborder="0"
+              allowfullscreen></iframe>
+    {% else %}
+      <!-- If it's an uploaded file -->
+      <video controls class="w-full h-full">
+        <source src="{{ lesson.item.get_video_source }}" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    {% endif %}
+  </div>
+{% else %}
+  <div class="text-gray-400 p-4">Video mavjud emas.</div>
+{% endif %}
+
+
+      {% if item|get_class == "image" %}
+        <img src="{{ item.image.url }}" alt="{{ item.title }}" class="w-full h-auto rounded-lg shadow" />
+
+      {% elif item|get_class == "file" %}
+        <div class="p-6">
+          <p class="text-lg mb-3">📄 Fayl darsligi:</p>
+          <a href="{{ item.file.url }}" download class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded">
+            Yuklab olish
+          </a>
+        </div>
+
+      {% elif item|get_class == "text" %}
+        <div class="p-6 prose prose-invert max-w-none text-white">
+          {{ item.body|linebreaks }}
+        </div>
+
+      {% else %}
+        <div class="p-6 text-gray-400">Dars kontenti mavjud emas.</div>
+      {% endif %}
+
+    </div>
+  {% endwith %}
+
+  <!-- Title -->
+  <h1 class="text-xl font-semibold tracking-wide">
+    {{ lesson.item.title }}
+  </h1>
+
+  <!-- Action -->
+  <div class="mt-auto flex justify-end">
+    <a href="{% url 'courses:index' %}" class="bg-white text-black font-semibold px-4 py-2 rounded hover:bg-gray-200 transition">
+      Exit
+    </a>
+  </div>
+
+</main>
+
+
+</div>
+
+</body>
+</html>

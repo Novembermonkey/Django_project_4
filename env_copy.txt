@@ -1,0 +1,21 @@
+#django
+SECRET_KEY=xxx
+
+#pgsql
+DB_NAME=xxx
+DB_USER=xxx
+DB_PASSWORD=xxx
+DB_HOST=xxx
+DB_PORT=xxx
+
+#email
+EMAIL_HOST_USER = xxx
+EMAIL_HOST_PASSWORD = xxx
+sender = "" #put your email here
+
+#social_auth
+SOCIAL_AUTH_GITHUB_KEY = xxx
+SOCIAL_AUTH_GITHUB_SECRET = xxx
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = xxx
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = xxx
