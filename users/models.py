@@ -14,6 +14,7 @@ class Role(models.Model):
 
 
 class CustomUser(AbstractUser, PermissionsMixin):
+    username = models.CharField(max_length=50, unique=True, default='')
     email = models.EmailField(unique=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
