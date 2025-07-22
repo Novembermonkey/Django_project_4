@@ -3,3 +3,5 @@
 online-courses-html-template (2) (1)
 .idea
 db.sqlite3
+*.pyc
+__pycache__/
