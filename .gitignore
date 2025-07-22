@@ -1,5 +1,6 @@
-venv/
+.venv
 .env
 media/
 online-courses-html-template (2) (1)
-.idea/
+.idea
+db.sqlite3
