@@ -1,6 +1,3 @@
-from lib2to3.fixes.fix_input import context
-
-from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView, CreateView
 from courses.models import Course, Subject, Comment, Lesson, Module
